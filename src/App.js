@@ -1,10 +1,18 @@
-import logo from "./logo.svg";
 import "./App.css";
+import { useEffect } from "react";
 import { useState } from "react";
 
 function App() {
   let [countlive, setCount] = useState(0);
   let [countbad, setCountb] = useState(0);
+
+  const [data, setData] = useState(undefined);
+  useEffect(() => {
+    fetch("https://api.github.com/users/mi-0930")
+      .then((res) => res.json())
+      .then((json) => setData(json));
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header bg-cookie text-3xl">
@@ -44,6 +52,18 @@ function App() {
         <a href="/newpage" className="text-pastel-red underline">
           コミュニティページ
         </a>
+        {data ? (
+          <>
+            <img
+              className="w-32 rounded-full mt-10"
+              alt="icon"
+              src={data.avatar_url}
+            />
+            <p className="text-wed-dark">{data.login}</p>
+          </>
+        ) : (
+          <p> nodata </p>
+        )}
       </header>
     </div>
   );
